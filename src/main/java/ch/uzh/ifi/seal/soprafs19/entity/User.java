@@ -20,12 +20,15 @@ public class User implements Serializable {
 	@GeneratedValue
 	private Long id;
 	
-	@Column(nullable = false) 
+	@Column(nullable = false)
 	private String name;
 	
 	@Column(nullable = false, unique = true) 
 	private String username;
-	
+
+	@Column(nullable = false)
+	private Date createDate;
+
 	@Column(nullable = false)
 	private String password;
 	
