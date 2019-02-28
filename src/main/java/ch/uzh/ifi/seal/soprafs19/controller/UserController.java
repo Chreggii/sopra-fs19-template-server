@@ -1,8 +1,8 @@
 package ch.uzh.ifi.seal.soprafs19.controller;
 
 import ch.uzh.ifi.seal.soprafs19.entity.User;
-import ch.uzh.ifi.seal.soprafs19.exception.UsernameTakenException;
-import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
+import ch.uzh.ifi.seal.soprafs19.entity.UserTransfer;
+import ch.uzh.ifi.seal.soprafs19.exception.HttpConflictException;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,15 +20,16 @@ public class UserController {
 
     @GetMapping("/users")
     Iterable<User> all() {
-        return service.getUsers();
+        //TODO CH: Return UserTransfer object
+       return this.service.getUsers();
     }
 
     @PostMapping("/users")
-    User createUser(@RequestBody User newUser) {
+    UserTransfer createUser(@RequestBody User newUser) {
         try {
-            return this.service.createUser(newUser);
+             return new UserTransfer(this.service.createUser(newUser));
         } catch (Exception e) {
-            throw new UsernameTakenException("Username already exists!");
+            throw new HttpConflictException();
         }
     }
 }
