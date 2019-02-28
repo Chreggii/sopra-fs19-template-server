@@ -24,7 +24,7 @@ public class LoginController {
     UserTransfer login(@RequestBody User user) {
         if (this.userSvc.existsUserByUsername(user.getUsername())) {
             if (this.loginSvc.canLogin(user.getUsername(), user.getPassword())) {
-                return new UserTransfer(this.userSvc.getUserByUsername(user.getUsername()));
+                return new UserTransfer(this.loginSvc.login(user));
             } else {
                 throw new HttpUnauthorizedException("Username or Password is wrong!");
             }

@@ -27,9 +27,8 @@ public class UserService {
     }
 
     public User createUser(User newUser) {
-        newUser.setToken(UUID.randomUUID().toString());
-        newUser.setStatus(UserStatus.ONLINE);
         newUser.setCreateDate(new Date());
+        newUser.setStatus(UserStatus.OFFLINE);
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
