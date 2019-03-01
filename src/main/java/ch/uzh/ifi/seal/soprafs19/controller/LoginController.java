@@ -2,12 +2,13 @@ package ch.uzh.ifi.seal.soprafs19.controller;
 
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.entity.UserTransfer;
-import ch.uzh.ifi.seal.soprafs19.exception.HttpUnauthorizedException;
 import ch.uzh.ifi.seal.soprafs19.service.LoginService;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class LoginController {
@@ -26,10 +27,10 @@ public class LoginController {
             if (this.loginSvc.canLogin(user.getUsername(), user.getPassword())) {
                 return new UserTransfer(this.loginSvc.login(user));
             } else {
-                throw new HttpUnauthorizedException("Username or Password is wrong!");
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or Password is wrong");
             }
         } else {
-            throw new HttpUnauthorizedException("Please sign in first!");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please sign in first");
         }
     }
 }

@@ -30,6 +30,9 @@ public class User implements Serializable {
 	private Date createDate;
 
 	@Column(nullable = false)
+	private Date birthday;
+
+	@Column(nullable = false)
 	private String password;
 	
 	@Column(unique = true)
@@ -102,5 +105,13 @@ public class User implements Serializable {
 		}
 		User user = (User) o;
 		return this.getId().equals(user.getId());
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 }

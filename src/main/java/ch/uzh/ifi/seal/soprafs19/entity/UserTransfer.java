@@ -1,5 +1,9 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 
+import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
+
+import java.util.Date;
+
 public class UserTransfer {
 
     public UserTransfer(User user) {
@@ -7,6 +11,9 @@ public class UserTransfer {
         this.setName(user.getName());
         this.setUsername(user.getUsername());
         this.setToken(user.getToken());
+        this.setStatus(user.getStatus());
+        this.setCreateDate(user.getCreateDate());
+        this.setBirthday(user.getBirthday());
     }
 
     private Long id;
@@ -16,6 +23,13 @@ public class UserTransfer {
     private String username;
 
     private String token;
+
+    private UserStatus status;
+
+    private Date createDate;
+
+    private Date birthday;
+
 
     public String getUsername() {
         return username;
@@ -47,5 +61,29 @@ public class UserTransfer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 }
