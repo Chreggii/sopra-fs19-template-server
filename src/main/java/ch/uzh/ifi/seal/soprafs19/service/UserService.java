@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -34,6 +33,10 @@ public class UserService {
         return newUser;
     }
 
+    public Boolean existsUserById(long id) {
+        return this.userRepository.existsUserById(id);
+    }
+
     public Boolean existsUserByUsername(String username) {
         return this.userRepository.existsUserByUsername(username);
     }
@@ -48,5 +51,12 @@ public class UserService {
 
     public Iterable<User> getUsers() {
         return this.userRepository.findAll();
+    }
+
+    public void updateUser(long userId, User user) {
+        User updatedUser = this.userRepository.findById(userId);
+        updatedUser.setUsername(user.getUsername());
+        updatedUser.setBirthday(user.getBirthday());
+        this.userRepository.save(updatedUser);
     }
 }
