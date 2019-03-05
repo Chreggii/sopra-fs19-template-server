@@ -43,7 +43,7 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = {"http://localhost:3000", "https://sopra-fs19-chreggii-client.herokuapp.com"})
     @PutMapping("/users/{id}")
     ResponseEntity<Void> updateUser(@RequestBody User user, @PathVariable("id") long id) {
         // TODO CH: use existsuserbyid method
