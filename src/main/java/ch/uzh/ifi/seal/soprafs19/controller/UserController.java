@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class UserController {
 
@@ -18,15 +21,19 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    Iterable<User> all() {
+    Iterable<UserTransfer> all() {
         //TODO CH: Return UserTransfer object
-       return this.service.getUsers();
+        List<UserTransfer> userTransfers = new ArrayList<>();
+        this.service.getUsers().forEach(user -> {
+            userTransfers.add(new UserTransfer(user, false));
+        });
+       return userTransfers;
     }
 
     @PostMapping("/users")
     UserTransfer createUser(@RequestBody User newUser) {
         try {
-             return new UserTransfer(this.service.createUser(newUser));
+             return new UserTransfer(this.service.createUser(newUser), false);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
         }
@@ -37,7 +44,7 @@ public class UserController {
         var user = this.service.getUserById(id);
 
         if (user != null) {
-            return new UserTransfer(user);
+            return new UserTransfer(user, false);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }

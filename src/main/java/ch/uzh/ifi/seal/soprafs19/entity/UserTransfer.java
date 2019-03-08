@@ -6,19 +6,19 @@ import java.util.Date;
 
 public class UserTransfer {
 
-    public UserTransfer(User user) {
+    public UserTransfer(User user, Boolean passToken) {
         this.setId(user.getId());
-        this.setName(user.getName());
         this.setUsername(user.getUsername());
-        this.setToken(user.getToken());
         this.setStatus(user.getStatus());
         this.setCreateDate(user.getCreateDate());
         this.setBirthday(user.getBirthday());
+
+        if (passToken) {
+            this.setToken(user.getToken());
+        }
     }
 
     private Long id;
-
-    private String name;
 
     private String username;
 
@@ -53,14 +53,6 @@ public class UserTransfer {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Date getCreateDate() {
