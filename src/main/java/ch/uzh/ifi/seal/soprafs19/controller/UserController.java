@@ -31,16 +31,16 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    UserTransfer createUser(@RequestBody User newUser) {
+    String createUser(@RequestBody User newUser) {
         try {
-             return new UserTransfer(this.service.createUser(newUser), false);
+             return "users/" + this.service.createUser(newUser).getId();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
         }
     }
 
-    @GetMapping("/users/{id}")
-    UserTransfer getUser(@PathVariable("id") long id){
+    @GetMapping("/users/{userId}")
+    UserTransfer getUser(@PathVariable("userId") long id){
         var user = this.service.getUserById(id);
 
         if (user != null) {
@@ -51,8 +51,8 @@ public class UserController {
     }
 
     @CrossOrigin(origins = {"http://localhost:3000", "https://sopra-fs19-chreggii-client.herokuapp.com"})
-    @PutMapping("/users/{id}")
-    ResponseEntity<Void> updateUser(@RequestBody User user, @PathVariable("id") long id) {
+    @PutMapping("/users/{userId}")
+    ResponseEntity<Void> updateUser(@RequestBody User user, @PathVariable("userId") long id) {
         // TODO CH: use existsuserbyid method
         var updatedUser = this.service.getUserById(id);
         if (updatedUser != null) {
