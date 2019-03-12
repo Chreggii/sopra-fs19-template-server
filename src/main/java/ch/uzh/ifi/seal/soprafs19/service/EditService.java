@@ -20,7 +20,7 @@ public class EditService {
 
     public Boolean canEditUser(UserEdit editInfo) {
         User user = this.userRepository.findById(editInfo.getId().longValue());
-        if (user.getToken() != null) {
+        if (user != null && user.getToken() != null) {
             return user.getToken().equals(editInfo.getToken());
         }
         return false;
