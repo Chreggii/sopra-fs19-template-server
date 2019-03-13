@@ -1,6 +1,5 @@
 package ch.uzh.ifi.seal.soprafs19.controller;
 
-import ch.uzh.ifi.seal.soprafs19.entity.UserEdit;
 import ch.uzh.ifi.seal.soprafs19.service.AuthorizationService;
 import ch.uzh.ifi.seal.soprafs19.service.EditService;
 import org.springframework.http.HttpStatus;
@@ -22,10 +21,10 @@ public class EditUserController {
     }
 
     @PostMapping("/edit")
-    Boolean canEditUser(@RequestHeader(value="Authorization") String token, @RequestBody UserEdit editInfo) {
+    Boolean canEditUser(@RequestHeader(value="Authorization") String token, @RequestBody Long id) {
         try {
             this.authorizationService.checkAuthorization(token);
-            return this.editService.canEditUser(editInfo);
+            return this.editService.canEditUser(id, token);
         } catch (Exception ex) {
             if (ex instanceof ResponseStatusException) {
                 throw ex;

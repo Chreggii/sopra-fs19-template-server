@@ -2,7 +2,6 @@ package ch.uzh.ifi.seal.soprafs19.service;
 
 import ch.uzh.ifi.seal.soprafs19.Application;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
-import ch.uzh.ifi.seal.soprafs19.entity.UserEdit;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,12 +42,7 @@ public class EditServiceTest {
 
         var loggedUser = this.loginService.login(createdUser);
 
-        var editInfo = new UserEdit();
-        editInfo.setId(createdUser.getId());
-        editInfo.setToken(loggedUser.getToken());
-
-        Assert.assertTrue(this.editService.canEditUser(editInfo));
-        editInfo.setId(Long.valueOf(0));
-        Assert.assertFalse(this.editService.canEditUser(editInfo));
+        Assert.assertTrue(this.editService.canEditUser(createdUser.getId(), loggedUser.getToken()));
+        Assert.assertFalse(this.editService.canEditUser(Long.valueOf(0), loggedUser.getToken()));
     }
 }

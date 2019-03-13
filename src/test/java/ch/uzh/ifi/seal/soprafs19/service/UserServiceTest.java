@@ -65,7 +65,7 @@ public class UserServiceTest {
         testUser.setBirthday(new Date());
         testUser.setPassword("testPassword");
 
-        User createdUser = userService.createUser(testUser);
+        userService.createUser(testUser);
 
         Assert.assertTrue(userService.existsUserByUsername(username));
     }

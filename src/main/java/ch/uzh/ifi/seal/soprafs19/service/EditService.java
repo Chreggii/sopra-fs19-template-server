@@ -1,7 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.service;
 
 import ch.uzh.ifi.seal.soprafs19.entity.User;
-import ch.uzh.ifi.seal.soprafs19.entity.UserEdit;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +17,10 @@ public class EditService {
         this.userRepository = userRepository;
     }
 
-    public Boolean canEditUser(UserEdit editInfo) {
-        User user = this.userRepository.findById(editInfo.getId().longValue());
+    public Boolean canEditUser(Long id, String token) {
+        User user = this.userRepository.findById(id.longValue());
         if (user != null && user.getToken() != null) {
-            return user.getToken().equals(editInfo.getToken());
+            return user.getToken().equals(token);
         }
         return false;
     }
