@@ -3,7 +3,6 @@ package ch.uzh.ifi.seal.soprafs19.controller;
 import ch.uzh.ifi.seal.soprafs19.entity.Logout;
 import ch.uzh.ifi.seal.soprafs19.service.AuthorizationService;
 import ch.uzh.ifi.seal.soprafs19.service.LogoutService;
-import ch.uzh.ifi.seal.soprafs19.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +16,10 @@ public class LogoutController {
 
     private final AuthorizationService authorizationService;
     private final LogoutService logoutSvc;
-    private final UserService userSvc;
 
-    LogoutController(AuthorizationService authorizationService,  LogoutService logoutSvc, UserService userSvc) {
+    LogoutController(AuthorizationService authorizationService,  LogoutService logoutSvc) {
         this.authorizationService = authorizationService;
         this.logoutSvc = logoutSvc;
-        this.userSvc = userSvc;
     }
 
     @PostMapping("/logout")

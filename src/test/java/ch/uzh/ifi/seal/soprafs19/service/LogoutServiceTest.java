@@ -15,8 +15,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
-
 @WebAppConfiguration
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= Application.class)
