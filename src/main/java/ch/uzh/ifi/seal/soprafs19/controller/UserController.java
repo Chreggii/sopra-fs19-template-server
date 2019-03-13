@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.soprafs19.controller;
 
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.entity.UserTransfer;
+import ch.uzh.ifi.seal.soprafs19.service.AuthorizationService;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,20 +15,22 @@ import java.util.List;
 @RestController
 public class UserController {
 
+    private final AuthorizationService authorizationService;
     private final UserService service;
 
-    UserController(UserService service) {
+    UserController(AuthorizationService authorizationService, UserService service) {
+        this.authorizationService = authorizationService;
         this.service = service;
     }
 
     @GetMapping("/users")
-    Iterable<UserTransfer> all() {
-        //TODO CH: Return UserTransfer object
+    Iterable<UserTransfer> all(@RequestHeader(value="Authorization") String token) {
+        this.authorizationService.checkAuthorization(token);
         List<UserTransfer> userTransfers = new ArrayList<>();
         this.service.getUsers().forEach(user -> {
             userTransfers.add(new UserTransfer(user, false));
         });
-       return userTransfers;
+        return userTransfers;
     }
 
     @PostMapping("/users")
@@ -40,9 +43,10 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
-    UserTransfer getUser(@PathVariable("userId") long id){
-        var user = this.service.getUserById(id);
+    UserTransfer getUser(@PathVariable("userId") long id, @RequestHeader(value="Authorization") String token){
+        this.authorizationService.checkAuthorization(token);
 
+        var user = this.service.getUserById(id);
         if (user != null) {
             return new UserTransfer(user, false);
         } else {
@@ -52,7 +56,9 @@ public class UserController {
 
     @CrossOrigin(origins = {"http://localhost:3000", "https://sopra-fs19-chreggii-client.herokuapp.com"})
     @PutMapping("/users/{userId}")
-    ResponseEntity<Void> updateUser(@RequestBody User user, @PathVariable("userId") long id) {
+    ResponseEntity<Void> updateUser(@PathVariable("userId") long id, @RequestHeader(value="Authorization") String token, @RequestBody User user) {
+        this.authorizationService.checkAuthorization(token);
+
         // TODO CH: use existsuserbyid method
         var updatedUser = this.service.getUserById(id);
         if (updatedUser != null) {
@@ -63,7 +69,7 @@ public class UserController {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
             }
         } else {
-           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
     }
 }

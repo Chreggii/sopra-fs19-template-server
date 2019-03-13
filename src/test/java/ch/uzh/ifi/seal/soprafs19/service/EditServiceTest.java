@@ -52,7 +52,7 @@ public class EditServiceTest {
         editInfo.setToken(loggedUser.getToken());
 
         Assert.assertTrue(this.editService.canEditUser(editInfo));
-        editInfo.setId(Long.valueOf(2));
+        editInfo.setId(Long.valueOf(0));
         Assert.assertFalse(this.editService.canEditUser(editInfo));
     }
 }
