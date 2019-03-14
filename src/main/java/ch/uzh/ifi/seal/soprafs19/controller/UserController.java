@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping("/users")
     Iterable<UserTransfer> all(@RequestHeader(value="Authorization") String token) {
-        this.authorizationService.checkAuthorization(token);
+        this.authorizationService.tryToAuthorize(token);
         List<UserTransfer> userTransfers = new ArrayList<>();
         this.service.getUsers().forEach(user -> {
             userTransfers.add(new UserTransfer(user, false));
@@ -44,7 +44,7 @@ public class UserController {
 
     @GetMapping("/users/{userId}")
     UserTransfer getUser(@PathVariable("userId") long id, @RequestHeader(value="Authorization") String token){
-        this.authorizationService.checkAuthorization(token);
+        this.authorizationService.tryToAuthorize(token);
 
         var user = this.service.getUserById(id);
         if (user != null) {
@@ -57,7 +57,7 @@ public class UserController {
     @CrossOrigin(origins = {"http://localhost:3000", "https://sopra-fs19-chreggii-client.herokuapp.com"})
     @PutMapping("/users/{userId}")
     ResponseEntity<Void> updateUser(@PathVariable("userId") long id, @RequestHeader(value="Authorization") String token, @RequestBody User user) {
-        this.authorizationService.checkAuthorization(token);
+        this.authorizationService.tryToAuthorize(token);
 
         // TODO CH: use existsuserbyid method
         var updatedUser = this.service.getUserById(id);

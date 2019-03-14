@@ -23,7 +23,7 @@ public class EditUserController {
     @PostMapping("/edit")
     Boolean canEditUser(@RequestHeader(value="Authorization") String token, @RequestBody Long id) {
         try {
-            this.authorizationService.checkAuthorization(token);
+            this.authorizationService.tryToAuthorize(token);
             return this.editService.canEditUser(id, token);
         } catch (Exception ex) {
             if (ex instanceof ResponseStatusException) {

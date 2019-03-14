@@ -1,6 +1,5 @@
 package ch.uzh.ifi.seal.soprafs19.controller;
 
-import ch.uzh.ifi.seal.soprafs19.entity.Logout;
 import ch.uzh.ifi.seal.soprafs19.service.AuthorizationService;
 import ch.uzh.ifi.seal.soprafs19.service.LogoutService;
 import org.springframework.http.HttpStatus;
@@ -23,17 +22,12 @@ public class LogoutController {
     }
 
     @PostMapping("/logout")
-    ResponseEntity<Void> logout(@RequestHeader(value="Authorization") String token, @RequestBody Logout logout) {
+    ResponseEntity<Void> logout(@RequestHeader(value="Authorization") String token) {
         try {
-            this.authorizationService.checkAuthorization(token);
-            this.logoutSvc.logout(logout.getToken());
+            this.logoutSvc.logout(token);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception ex) {
-            if (ex instanceof ResponseStatusException) {
-                throw ex;
-            } else {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found with this token");
-            }
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found with this token");
         }
     }
 }
