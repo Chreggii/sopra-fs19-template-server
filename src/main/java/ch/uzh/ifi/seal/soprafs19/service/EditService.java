@@ -17,6 +17,7 @@ public class EditService {
         this.userRepository = userRepository;
     }
 
+    // Return true if the id and token matches, otherwise false
     public Boolean canEditUser(Long id, String token) {
         User user = this.userRepository.findById(id.longValue());
         if (user != null && user.getToken() != null) {

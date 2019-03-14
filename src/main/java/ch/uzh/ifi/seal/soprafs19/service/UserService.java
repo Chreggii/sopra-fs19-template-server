@@ -33,26 +33,27 @@ public class UserService {
         return newUser;
     }
 
-    public Boolean existsUserById(long id) {
-        return this.userRepository.existsUserById(id);
-    }
-
+    // Returns if user exists by username
     public Boolean existsUserByUsername(String username) {
         return this.userRepository.existsUserByUsername(username);
     }
 
+    // Returns user by id
     public User getUserById(long id) {
         return this.userRepository.findById(id);
     }
 
+    // Returns user by username
     public User getUserByUsername(String username) {
         return this.userRepository.findByUsername(username);
     }
 
+    // Returns all users
     public Iterable<User> getUsers() {
         return this.userRepository.findAll();
     }
 
+    // Updates the user
     public void updateUser(long userId, User user) {
         User updatedUser = this.userRepository.findById(userId);
         updatedUser.setUsername(user.getUsername());

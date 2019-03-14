@@ -23,7 +23,9 @@ public class LoginController {
 
     @PostMapping("/login")
     UserTransfer login(@RequestBody User user) {
+        // Checks if user already exists and raises exception otherwise
         if (this.userSvc.existsUserByUsername(user.getUsername())) {
+            // Checks if username and password matches and raises exception otherwise
             if (this.loginSvc.canLogin(user.getUsername(), user.getPassword())) {
                 return new UserTransfer(this.loginSvc.login(user), true);
             } else {

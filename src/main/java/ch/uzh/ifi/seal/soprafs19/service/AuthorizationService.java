@@ -19,6 +19,7 @@ public class AuthorizationService {
     }
 
     public void tryToAuthorize(String token) {
+        // Raises an exception if corresponding user not exists
         if (token == null || !this.userRepository.existsUserByToken(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User is not authorize to perform this action");
         }

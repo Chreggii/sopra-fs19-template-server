@@ -25,10 +25,12 @@ public class LoginService {
         this.userSvc = userSvc;
     }
 
+    // Checks if the username and password matches.
     public Boolean canLogin(String username, String password) {
         return this.userRepository.findByUsername(username).getPassword().equals(password);
     }
 
+    // Logs the user in (Set UUID and UserStatus to ONLINE)
     public User login(User user) {
         var loggedUser = this.userSvc.getUserByUsername(user.getUsername());
         loggedUser.setToken(UUID.randomUUID().toString());

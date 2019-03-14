@@ -27,6 +27,7 @@ public class UserController {
     Iterable<UserTransfer> all(@RequestHeader(value="Authorization") String token) {
         this.authorizationService.tryToAuthorize(token);
         List<UserTransfer> userTransfers = new ArrayList<>();
+
         this.service.getUsers().forEach(user -> {
             userTransfers.add(new UserTransfer(user, false));
         });
@@ -36,6 +37,7 @@ public class UserController {
     @PostMapping("/users")
     String createUser(@RequestBody User newUser) {
         try {
+            // Creates a new user and returns its url
              return "users/" + this.service.createUser(newUser).getId();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
@@ -48,6 +50,7 @@ public class UserController {
 
         var user = this.service.getUserById(id);
         if (user != null) {
+            // Returns the corresponding user if id matches
             return new UserTransfer(user, false);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
@@ -59,16 +62,18 @@ public class UserController {
     ResponseEntity<Void> updateUser(@PathVariable("userId") long id, @RequestHeader(value="Authorization") String token, @RequestBody User user) {
         this.authorizationService.tryToAuthorize(token);
 
-        // TODO CH: use existsuserbyid method
         var updatedUser = this.service.getUserById(id);
         if (updatedUser != null) {
             try {
+                // Updating user
                 this.service.updateUser(id, user);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } catch (Exception e) {
+                // Raises exception if username already exists
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
             }
         } else {
+            // Raises exception if user id not matches
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
     }

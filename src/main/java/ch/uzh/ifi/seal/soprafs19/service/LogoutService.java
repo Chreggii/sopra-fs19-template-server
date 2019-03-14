@@ -18,6 +18,7 @@ public class LogoutService {
         this.userRepository = userRepository;
     }
 
+    // Logs the user out => Sets token to null and status to OFFLINE
     public void logout(String token) {
         var user = this.userRepository.findByToken(token);
         user.setToken(null);
