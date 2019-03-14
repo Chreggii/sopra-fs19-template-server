@@ -41,7 +41,7 @@ public class AuthorizationServiceTest {
         User createdUser = this.userService.createUser(testUser);;
 
         try {
-            this.authorizationService.checkAuthorization(createdUser.getToken());
+            this.authorizationService.tryToAuthorize(createdUser.getToken());
             Assert.fail();
         } catch (Exception ex) {
             Assert.assertTrue(true);
@@ -50,7 +50,7 @@ public class AuthorizationServiceTest {
         createdUser = this.loginService.login(createdUser);
 
         try {
-            this.authorizationService.checkAuthorization(createdUser.getToken());
+            this.authorizationService.tryToAuthorize(createdUser.getToken());
             Assert.assertTrue(true);
         } catch (Exception ex) {
             Assert.fail();
